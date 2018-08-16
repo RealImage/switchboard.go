@@ -3,7 +3,7 @@ package switchboard
 // Supply needs to be implemented by any type acting as a supplier.
 // Must be safe for concurrent use by multiple goroutines.
 type Supply interface {
-	Estimate(demand Demand, choicesMade []Choice) Choice
+	Estimate(demand Demand, choicesMade []Choice) (Choice, error)
 }
 
 // Demand is an empty interface that denotes a demand.
@@ -13,10 +13,31 @@ type Demand interface {
 // Choice represents the fulfillment of a Demand with a particular Supply with
 // its corresponding cost.
 type Choice struct {
-	Supply     Supply
-	Demand     Demand
-	Cost       float64
-	Attributes map[string]interface{}
+	supply     Supply
+	demand     Demand
+	cost       float64
+	attributes map[string]interface{}
+}
+
+func (choice Choice) Supply() Supply {
+	return nil
+}
+
+func (choice Choice) Demand() Demand {
+	return nil
+}
+
+func (choice Choice) Cost() float64 {
+	return 0
+}
+
+func (choice Choice) Get(key string) interface{} {
+	return nil
+}
+
+// NewChoice build a new choice from the given supply, demand, cost and attributes.
+func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string]interface{}) Choice {
+	return Choice{}
 }
 
 // Explorer evaluates a board to determine whether its choices are worth exploring further.
