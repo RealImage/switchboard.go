@@ -19,18 +19,22 @@ type Choice struct {
 	attributes map[string]interface{}
 }
 
+// Supply returns the supply associated with the current choice
 func (choice Choice) Supply() Supply {
 	return nil
 }
 
+// Demand returns the demand associated with the current choice
 func (choice Choice) Demand() Demand {
 	return nil
 }
 
+// Cost returns the cost associated with the current choice
 func (choice Choice) Cost() float64 {
 	return 0
 }
 
+// Get retrieves the associated value from the attribute map
 func (choice Choice) Get(key string) interface{} {
 	return nil
 }
