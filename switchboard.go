@@ -32,17 +32,17 @@ type Board struct {
 }
 
 // ChoicesMade returns a list of the choices made so far, in order
-func (b Board) ChoicesMade() []Choice {
+func (board Board) ChoicesMade() []Choice {
 	return []Choice{}
 }
 
 // Cost returns the sum of the costs of all the choices made so far
-func (b Board) Cost() float64 {
+func (board Board) Cost() float64 {
 	return 0
 }
 
 // FindBestBoard uses the given explorer to discover the best sequence
 // of choices among the universe of all possible choice sequences.
-func (b Board) FindBestBoard(explorer Explorer) (bestBoard Board) {
+func (board Board) FindBestBoard(explorer Explorer) (bestBoard Board) {
 	return Board{}
 }
