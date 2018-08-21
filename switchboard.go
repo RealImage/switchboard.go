@@ -21,27 +21,32 @@ type Choice struct {
 
 // Supply returns the supply associated with the current choice
 func (choice Choice) Supply() Supply {
-	return nil
+	return choice.supply
 }
 
 // Demand returns the demand associated with the current choice
 func (choice Choice) Demand() Demand {
-	return nil
+	return choice.demand
 }
 
 // Cost returns the cost associated with the current choice
 func (choice Choice) Cost() float64 {
-	return 0
+	return choice.cost
 }
 
 // Get retrieves the associated value from the attribute map
 func (choice Choice) Get(key string) interface{} {
-	return nil
+	return choice.attributes[key]
 }
 
 // NewChoice build a new choice from the given supply, demand, cost and attributes.
 func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string]interface{}) Choice {
-	return Choice{}
+	return Choice{
+		supply:     supply,
+		demand:     demand,
+		cost:       cost,
+		attributes: attributes,
+	}
 }
 
 // Explorer evaluates a board to determine whether its choices are worth exploring further.
