@@ -7,11 +7,10 @@ type Board struct {
 }
 
 // NewBoard constructs a new board with the given supplies and demands
-func NewBoard(supplies []Supply, demands []Demand) Board {
-	return Board{
-		supplies: supplies,
-		demands:  demands,
-	}
+func NewBoard(supplies []Supply, demands []Demand) (board Board) {
+	board.supplies = append(board.supplies, supplies...)
+	board.demands = append(board.demands, demands...)
+	return
 }
 
 // ChoicesMade returns a list of the choices made so far, in order
@@ -31,11 +30,11 @@ func (board Board) FindBestBoard(explorer Explorer) (bestBoard Board) {
 }
 
 // Supplies returns the list of supplies associated with the board
-func (board Board) Supplies() []Supply {
-	return board.supplies
+func (board Board) Supplies() (supplies []Supply) {
+	return append(supplies, board.supplies...)
 }
 
 // Demands returns the list of demands associated with the board
-func (board Board) Demands() []Demand {
-	return board.demands
+func (board Board) Demands() (demands []Demand) {
+	return append(demands, board.demands...)
 }

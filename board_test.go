@@ -13,4 +13,5 @@ func TestBoardCreation(t *testing.T) {
 	board := switchboard.NewBoard(supplies, demands)
 	assert.Equal(t, supplies, board.Supplies())
 	assert.Equal(t, demands, board.Demands())
+
 }
