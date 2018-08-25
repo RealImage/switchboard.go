@@ -2,8 +2,10 @@ package switchboard
 
 // Board represents a set of supplies and demands for which a universes of choices can be explored.
 type Board struct {
-	supplies []Supply
-	demands  []Demand
+	supplies   []Supply
+	demands    []Demand
+	choiceMade Choice
+	parent     *Board
 }
 
 // NewBoard constructs a new board with the given supplies and demands
@@ -23,9 +25,9 @@ func (board Board) Cost() float64 {
 	return 0
 }
 
-// FindBestBoard uses the given explorer to discover the best sequence
-// of choices among the universe of all possible choice sequences.
-func (board Board) FindBestBoard(explorer Explorer) (bestBoard Board) {
+// Explore uses the given explorer to discover the best board (sequence
+// of choices) among the universe of all possible boards.
+func (board Board) Explore(explorer Explorer) (bestBoard Board) {
 	return Board{}
 }
 
