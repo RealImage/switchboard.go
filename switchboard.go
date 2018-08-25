@@ -40,13 +40,15 @@ func (choice Choice) Get(key string) interface{} {
 }
 
 // NewChoice build a new choice from the given supply, demand, cost and attributes.
-func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string]interface{}) Choice {
-	return Choice{
-		supply:     supply,
-		demand:     demand,
-		cost:       cost,
-		attributes: attributes,
+func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string]interface{}) (choice Choice) {
+	choice.supply = supply
+	choice.demand = demand
+	choice.cost = cost
+	choice.attributes = make(map[string]interface{})
+	for k, v := range attributes {
+		choice.attributes[k] = v
 	}
+	return
 }
 
 // Explorer evaluates a board to determine whether its choices are worth exploring further.

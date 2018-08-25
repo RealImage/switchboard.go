@@ -4,7 +4,7 @@ package switchboard
 type Board struct {
 	supplies   []Supply
 	demands    []Demand
-	choiceMade Choice
+	choiceMade *Choice
 	parent     *Board
 }
 
@@ -15,20 +15,20 @@ func NewBoard(supplies []Supply, demands []Demand) (board Board) {
 	return
 }
 
-// ChoicesMade returns a list of the choices made so far, in order
-func (board Board) ChoicesMade() []Choice {
-	return []Choice{}
+// ChoicesMade returns a list of the choices made so far, in the order they were made
+func (board Board) ChoicesMade() (choicesMade []Choice) {
+	return
 }
 
 // Cost returns the sum of the costs of all the choices made so far
-func (board Board) Cost() float64 {
-	return 0
+func (board Board) Cost() (cost float64) {
+	return
 }
 
 // Explore uses the given explorer to discover the best board (sequence
 // of choices) among the universe of all possible boards.
-func (board Board) Explore(explorer Explorer) (bestBoard Board) {
-	return Board{}
+func (board Board) Explore(func(board Board) bool) (bestBoard Board) {
+	return
 }
 
 // Supplies returns the list of supplies associated with the board

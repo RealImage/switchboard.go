@@ -7,16 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type testSupply struct {
-}
-
-func (ts testSupply) Estimate(demand switchboard.Demand, choicesMade []switchboard.Choice) (switchboard.Choice, error) {
-	return switchboard.NewChoice(nil, nil, 0.123, nil), nil
-}
-
-type testDemand struct {
-}
-
 func TestChoice(t *testing.T) {
 	supply := testSupply{}
 	demand := testDemand{}
@@ -27,5 +17,4 @@ func TestChoice(t *testing.T) {
 	assert.Equal(t, cost, choice.Cost())
 	assert.Equal(t, 123, choice.Get("abc"))
 	assert.Nil(t, choice.Get("blah"))
-
 }
