@@ -93,7 +93,7 @@ func (board Board) pendingDemands() (pendingDemands []Demand) {
 func (board Board) choose(choiceMade Choice) (newBoard Board) {
 	newBoard.supplies = board.supplies
 	newBoard.demands = board.demands
-	copy(newBoard.choices, board.choices)
+	newBoard.choices = append(newBoard.choices, board.choices...)
 	newBoard.choices = append(newBoard.choices, choiceMade)
 	return
 }
