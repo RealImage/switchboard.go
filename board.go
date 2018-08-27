@@ -16,11 +16,14 @@ func NewBoard(supplies []Supply, demands []Demand) (board Board) {
 
 // ChoicesMade returns a list of the choices made so far, in the order they were made
 func (board Board) ChoicesMade() (choicesMade []Choice) {
-	return
+	return append(choicesMade, board.choices...)
 }
 
 // Cost returns the sum of the costs of all the choices made so far
 func (board Board) Cost() (cost float64) {
+	for _, choice := range board.choices {
+		cost += choice.cost
+	}
 	return
 }
 
@@ -51,7 +54,7 @@ func (board Board) Demands() (demands []Demand) {
 }
 
 func (board Board) explore(shouldExplore func(board Board) bool) (finishedBoards []Board) {
-	if board.finished() {
+	if board.isFinished() {
 		return append(finishedBoards, board)
 	}
 	for _, possibleBoard := range board.possibleBoards() {
@@ -61,15 +64,18 @@ func (board Board) explore(shouldExplore func(board Board) bool) (finishedBoards
 	}
 	return
 }
+
 func (board Board) possibleBoards() (possibleBoards []Board) {
-	for _, choice := range board.viableChoices() {
+	for _, choice := range board.availableChoices() {
 		possibleBoards = append(possibleBoards, board.choose(choice))
 	}
 	return
 }
-func (board Board) finished() bool {
-	return len(board.viableChoices()) == 0
+
+func (board Board) isFinished() bool {
+	return len(board.availableChoices()) == 0
 }
+
 func (board Board) pendingDemands() (pendingDemands []Demand) {
 	demandSet := make(map[Demand]struct{})
 	for _, demand := range board.demands {
@@ -83,6 +89,7 @@ func (board Board) pendingDemands() (pendingDemands []Demand) {
 	}
 	return
 }
+
 func (board Board) choose(choiceMade Choice) (newBoard Board) {
 	newBoard.supplies = board.supplies
 	newBoard.demands = board.demands
@@ -90,17 +97,19 @@ func (board Board) choose(choiceMade Choice) (newBoard Board) {
 	newBoard.choices = append(newBoard.choices, choiceMade)
 	return
 }
-func (board Board) viableChoices() (viableChoices []Choice) {
+
+func (board Board) availableChoices() (availableChoices []Choice) {
 	for _, pendingDemand := range board.pendingDemands() {
 		for _, supply := range board.supplies {
 			choice, err := supply.Estimate(pendingDemand, []Choice{})
 			if err != nil {
-				viableChoices = append(viableChoices, choice)
+				availableChoices = append(availableChoices, choice)
 			}
 		}
 	}
 	return
 }
+
 func (board Board) isBetterThan(otherBoard Board) bool {
 	if len(board.ChoicesMade()) == len(otherBoard.ChoicesMade()) {
 		if board.Cost() < otherBoard.Cost() {
