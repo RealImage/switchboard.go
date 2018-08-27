@@ -20,5 +20,4 @@ func TestBoardCreation(t *testing.T) {
 		return true
 	})
 	assert.Equal(t, 2, len(bestBoard.ChoicesMade()))
-
 }
