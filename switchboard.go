@@ -63,12 +63,12 @@ func BruteForceExplorer() Explorer {
 // GoalTransformer allows transformation of choice scores to determine the goal of the exploration
 type GoalTransformer func(cost float64) float64
 
-// GoalMaximizationTransformer provides a GoalTransformer which helps find the board with the highest total cost
-func GoalMaximizationTransformer() GoalTransformer {
+// Maximize provides a GoalTransformer which helps find the board with the highest total cost
+func Maximize() GoalTransformer {
 	return func(cost float64) float64 { return cost }
 }
 
-// GoalMinimizationTransformer provides a GoalTransformer which helps find the board with the lowest total cost
-func GoalMinimizationTransformer() GoalTransformer {
+// Minimize provides a GoalTransformer which helps find the board with the lowest total cost
+func Minimize() GoalTransformer {
 	return func(cost float64) float64 { return cost * -1 }
 }
