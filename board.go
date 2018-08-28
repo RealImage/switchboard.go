@@ -29,14 +29,14 @@ func (board Board) Cost() (cost float64) {
 
 // Explore uses the given explorer to discover the best board (sequence
 // of choices) among the universe of all possible boards.
-func (board Board) Explore(shouldExploreThisBoard func(board Board) bool) (bestBoard Board) {
-	finishedBoards := board.explore(shouldExploreThisBoard)
+func (board Board) Explore(explorer Explorer, goalTransform GoalTransformer) (bestBoard Board) {
+	finishedBoards := board.explore(explorer)
 	if len(finishedBoards) == 0 {
 		return board
 	}
 	bestBoard = finishedBoards[0]
 	for _, candidateBoard := range finishedBoards {
-		if candidateBoard.isBetterThan(bestBoard) {
+		if candidateBoard.isBetterThan(bestBoard, goalTransform) {
 			bestBoard = candidateBoard
 		}
 	}
@@ -111,9 +111,9 @@ func (board Board) availableChoices() (availableChoices []Choice) {
 	return
 }
 
-func (board Board) isBetterThan(otherBoard Board) bool {
+func (board Board) isBetterThan(otherBoard Board, goalTransform GoalTransformer) bool {
 	if len(board.ChoicesMade()) == len(otherBoard.ChoicesMade()) {
-		if board.Cost() < otherBoard.Cost() {
+		if goalTransform(board.Cost()) > goalTransform(otherBoard.Cost()) {
 			return true
 		}
 	} else {

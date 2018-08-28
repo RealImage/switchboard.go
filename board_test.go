@@ -16,9 +16,7 @@ func TestBoardCreation(t *testing.T) {
 	assert.InDelta(t, 0, board.Cost(), 0.01)
 	assert.Zero(t, len(board.ChoicesMade()))
 
-	bestBoard := board.Explore(func(board switchboard.Board) bool {
-		return true
-	})
+	bestBoard := board.Explore(switchboard.BruteForceExplorer(), switchboard.GoalMinimizationTransformer())
 	assert.Equal(t, 2, len(bestBoard.ChoicesMade()))
 	assert.InDelta(t, 3, bestBoard.Cost(), 0.01)
 }

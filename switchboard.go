@@ -53,6 +53,22 @@ func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string
 
 // Explorer evaluates a board to determine whether its choices are worth exploring further.
 // Must be safe for concurrent use by multiple goroutines.
-type Explorer interface {
-	ShouldExplore(board Board) bool
+type Explorer func(board Board) bool
+
+// BruteForceExplorer forces the exploration of every possible board
+func BruteForceExplorer() Explorer {
+	return func(board Board) bool { return true }
+}
+
+// GoalTransformer allows transformation of choice scores to determine the goal of the exploration
+type GoalTransformer func(cost float64) float64
+
+// GoalMaximizationTransformer provides a GoalTransformer which helps find the board with the highest total cost
+func GoalMaximizationTransformer() GoalTransformer {
+	return func(cost float64) float64 { return cost }
+}
+
+// GoalMinimizationTransformer provides a GoalTransformer which helps find the board with the lowest total cost
+func GoalMinimizationTransformer() GoalTransformer {
+	return func(cost float64) float64 { return cost * -1 }
 }
