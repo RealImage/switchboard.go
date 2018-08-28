@@ -102,11 +102,12 @@ func (board Board) availableChoices() (availableChoices []Choice) {
 	for _, pendingDemand := range board.pendingDemands() {
 		for _, supply := range board.supplies {
 			choice, err := supply.Estimate(pendingDemand, []Choice{})
-			if err != nil {
+			if err == nil {
 				availableChoices = append(availableChoices, choice)
 			}
 		}
 	}
+
 	return
 }
 
