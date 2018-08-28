@@ -8,8 +8,8 @@ import (
 )
 
 func TestBoardCreation(t *testing.T) {
-	supplies := []switchboard.Supply{{factor: 1}, {factor: 1.1}}
-	demands := []switchboard.Demand{{cost: 1}, {cost: 2}}
+	supplies := []switchboard.Supply{testSupply{factor: 1}, testSupply{factor: 1.1}}
+	demands := []switchboard.Demand{testDemand{cost: 1}, testDemand{cost: 2}}
 	board := switchboard.NewBoard(supplies, demands)
 	assert.Equal(t, supplies, board.Supplies())
 	assert.Equal(t, demands, board.Demands())
