@@ -53,7 +53,7 @@ func (board Board) Demands() (demands []Demand) {
 	return append(demands, board.demands...)
 }
 
-func (board Board) explore(shouldExplore func(board Board) bool) (finishedBoards []Board) {
+func (board Board) explore(shouldExplore Explorer) (finishedBoards []Board) {
 	if board.isFinished() {
 		return append(finishedBoards, board)
 	}
