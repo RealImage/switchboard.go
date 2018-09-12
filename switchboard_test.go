@@ -7,7 +7,8 @@ type testSupply struct {
 }
 
 func (ts testSupply) Estimate(demand switchboard.Demand, choicesMade []switchboard.Choice) (switchboard.Choice, error) {
-	return switchboard.NewChoice(ts, demand, ts.factor*demand.(testDemand).cost, nil), nil
+	estimate := ts.factor * demand.(testDemand).cost
+	return switchboard.NewChoice(ts, demand, estimate, nil), nil
 }
 
 type testDemand struct {

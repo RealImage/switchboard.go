@@ -51,8 +51,8 @@ func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string
 	return
 }
 
-// Explorer evaluates a board to determine whether its choices are worth exploring further.
-// Must be safe for concurrent use by multiple goroutines.
+// Explorer evaluates a board to determine whether its choices are worth
+// exploring further. Must be safe for concurrent use by multiple goroutines.
 type Explorer func(board Board) bool
 
 // BruteForceExplorer forces the exploration of every possible board
@@ -60,15 +60,18 @@ func BruteForceExplorer() Explorer {
 	return func(board Board) bool { return true }
 }
 
-// GoalTransformer allows transformation of choice scores to determine the goal of the exploration
+// GoalTransformer allows transformation of choice scores to determine the goal
+// of the exploration
 type GoalTransformer func(cost float64) float64
 
-// Maximize provides a GoalTransformer which helps find the board with the highest total cost
+// Maximize provides a GoalTransformer which helps find the board with the
+// highest total cost
 func Maximize() GoalTransformer {
 	return func(cost float64) float64 { return cost }
 }
 
-// Minimize provides a GoalTransformer which helps find the board with the lowest total cost
+// Minimize provides a GoalTransformer which helps find the board with the
+// lowest total cost
 func Minimize() GoalTransformer {
 	return func(cost float64) float64 { return cost * -1 }
 }
@@ -76,8 +79,9 @@ func Minimize() GoalTransformer {
 // BoardComparator returns true if board2 is better than board1.
 type BoardComparator func(board1, board2 Board) bool
 
-// PrioritizeWorkDone gives first priority to the number of choices made - it can be used when it's more important to fulfill demand
-// than just meet the cost goals
+// PrioritizeWorkDone gives first priority to the number of choices made - it
+// can be used when it's more important to fulfill as much demand as possible
+// than to just meet the cost goals
 func PrioritizeWorkDone(transformer GoalTransformer) BoardComparator {
 	return func(b1, b2 Board) bool {
 		if len(b1.ChoicesMade()) == len(b2.ChoicesMade()) {
