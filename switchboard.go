@@ -72,3 +72,30 @@ func Maximize() GoalTransformer {
 func Minimize() GoalTransformer {
 	return func(cost float64) float64 { return cost * -1 }
 }
+
+// BoardComparator returns true if board2 is better than board1.
+type BoardComparator func(board1, board2 Board) bool
+
+// PrioritizeWorkDone gives first priority to the number of choices made - it can be used when it's more important to fulfill demand
+// than just meet the cost goals
+func PrioritizeWorkDone(transformer GoalTransformer) BoardComparator {
+	return func(b1, b2 Board) bool {
+		if len(b1.ChoicesMade()) == len(b2.ChoicesMade()) {
+			if transformer(b2.Cost()) > transformer(b1.Cost()) {
+				return true
+			}
+		} else {
+			if len(b2.ChoicesMade()) > len(b1.ChoicesMade()) {
+				return true
+			}
+		}
+		return false
+	}
+}
+
+// PrioritizeTotalCost simply targets a board with the given cost goal
+func PrioritizeTotalCost(transformer GoalTransformer) BoardComparator {
+	return func(b1, b2 Board) bool {
+		return transformer(b2.Cost()) > transformer(b1.Cost())
+	}
+}
