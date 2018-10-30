@@ -51,6 +51,24 @@ func NewChoice(supply Supply, demand Demand, cost float64, attributes map[string
 	return
 }
 
+// Player evaluates a board and chooses a new board using a built-in strategy.
+type Player func(board Board) (chosenBoard Board)
+
+// GreedyPlayer is a fast player that just chooses the best available choice,
+// resulting in a local minima.
+func GreedyPlayer() Player {
+	return func(board Board) Board {
+		currentBestBoard := board
+		for _, choice := range board.availableChoices() {
+			candidateBoard := board.choose(choice)
+			if board.comparator(currentBestBoard, candidateBoard) {
+				currentBestBoard = candidateBoard
+			}
+		}
+		return currentBestBoard
+	}
+}
+
 // Explorer evaluates a board to determine whether its choices are worth
 // exploring further. Must be safe for concurrent use by multiple goroutines.
 type Explorer func(board Board) bool

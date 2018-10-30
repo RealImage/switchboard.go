@@ -29,6 +29,17 @@ func (board Board) Cost() (cost float64) {
 	return
 }
 
+// Play runs the board through the given Player repeatedly until the Player no longer shows improvement.
+func (board Board) Play(player Player) (bestBoard Board) {
+	currentBoard := board
+	betterBoard := player(currentBoard)
+	for board.comparator(currentBoard, betterBoard) {
+		currentBoard = betterBoard
+		betterBoard = player(currentBoard)
+	}
+	return betterBoard
+}
+
 // Explore uses the given explorer to discover the best board (sequence
 // of choices) among the universe of all possible boards.
 func (board Board) Explore(explorer Explorer) (bestBoard Board) {
@@ -38,7 +49,7 @@ func (board Board) Explore(explorer Explorer) (bestBoard Board) {
 	}
 	bestBoard = finishedBoards[0]
 	for _, candidateBoard := range finishedBoards {
-		if candidateBoard.isBetterThan(bestBoard) {
+		if board.comparator(bestBoard, candidateBoard) {
 			bestBoard = candidateBoard
 		}
 	}
@@ -110,10 +121,5 @@ func (board Board) availableChoices() (availableChoices []Choice) {
 			}
 		}
 	}
-
 	return
-}
-
-func (board Board) isBetterThan(otherBoard Board) bool {
-	return board.comparator(otherBoard, board)
 }
